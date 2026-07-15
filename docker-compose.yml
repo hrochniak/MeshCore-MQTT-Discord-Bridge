@@ -1,0 +1,11 @@
+services:
+  meshcore-bridge:
+    build: .
+    container_name: meshcore-bridge
+    restart: unless-stopped
+    volumes:
+      - ./config.yaml:/app/config.yaml:ro
+      - ./logs:/app/logs
+      - ./.git:/app/.git:ro
+    environment:
+      - TZ=UTC

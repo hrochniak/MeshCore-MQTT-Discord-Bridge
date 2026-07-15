@@ -1,0 +1,99 @@
+# MeshCore MQTT→Discord Bridge — Configuration
+#
+# Copy this file to config.yaml and fill in your values.
+# Only 'mqtt' and 'channels' are required to run the bridge.
+# Everything else works with the defaults shown below.
+
+# =============================================================================
+# MQTT Broker (required)
+# =============================================================================
+# Single broker — fill in your connection details:
+
+mqtt:
+  host: mqtt.example.com
+  port: 8883                      # Default: 8883 with TLS, 1883 without
+  username: your_username
+  password: your_password
+  topic: meshcore/+/packets
+  tls_verify: true                # true | false | "hybrid"
+
+  # Multiple brokers — uncomment and use instead of the above:
+  # brokers:
+  #   - host: mqtt.example.com
+  #     name: "Observer-1"
+  #     port: 8883
+  #     username: your_username
+  #     password: your_password
+  #     topic: meshcore/+/packets
+  #   - host: mqtt2.example.com
+  #     name: "Observer-2"
+  #     port: 8883
+  #     username: your_username
+  #     password: your_password
+  #     topic: meshcore/+/packets
+
+# =============================================================================
+# Channels (required)
+# =============================================================================
+# "Public" = built-in public channel (fixed key).
+# "#name"  = hashtag channel (key derived from name via SHA-256).
+# Channels without a webhook URL are still decrypted and logged locally.
+
+channels:
+  Public: ""
+  "#slovakia": ""
+
+# =============================================================================
+# Adverts — forward node announcements to Discord
+# =============================================================================
+
+adverts:
+  enabled: false
+  webhook_url: ""
+  # Reference point for distance calculation.
+  # When set, each Advert shows distance from this point.
+  # If omitted, distance is not displayed.
+  home_lat:
+  home_lon:
+  filter_roles:
+    - companion
+    - repeater
+    - room
+    - sensor
+
+# =============================================================================
+# Regions — resolve transport codes to human-readable names
+# =============================================================================
+
+regions: []
+
+# =============================================================================
+# Discord Webhooks — Errors & Debug
+# =============================================================================
+
+# Connection errors, script crashes, broker status changes
+errors_webhook_url: ""
+
+# When set, ALL messages (channels + adverts + errors) are redirected
+# here instead of their normal targets. Useful for development/testing.
+debug_webhook_url: ""
+
+# =============================================================================
+# Settings
+# =============================================================================
+
+settings:
+  dedup_window: 30                # Duplicate suppression window (seconds)
+  watchdog_timeout: 300           # No-packet reconnect timeout (seconds)
+
+# =============================================================================
+# Map Uploader — upload node positions to map.meshcore.io
+# =============================================================================
+
+map_uploader:
+  enabled: false
+  private_key: ""                 # Ed25519 hex private key (64 or 128 hex chars)
+  freq: 433.0                    # Radio frequency in MHz
+  sf: 12                         # Spread factor
+  bw: 125.0                     # Bandwidth in kHz
+  cr: 5                          # Coding rate
