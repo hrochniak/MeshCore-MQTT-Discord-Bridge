@@ -1,0 +1,18 @@
+# Virtual environment
+venv/
+.venv/
+
+# Python cache
+__pycache__/
+*.py[cod]
+
+# Configuration (contains secrets)
+config.yaml
+
+# Logs
+logs/
+
+# OS / IDE
+.DS_Store
+.idea/
+.vscode/
